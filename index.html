@@ -139,7 +139,53 @@
                 </table>
             </div>
             <script>
-            // Write your code here
+                let table = document.getElementById('pizzaOrders');
+
+                function inputChange(inputs) {
+                    for (let i = 0; i < inputs.length; i++) {
+                        let content = inputs[i].value;
+
+                        inputs[i].onkeydown = (event) => {
+                            let allFilled = true;
+                            for (let i = 0; i < inputs.length - 1; i++) {
+                                if (inputs[i].value == "") {
+                                    allFilled = false;
+                                }
+                            }
+
+                            let key = event.keyCode;
+
+                            if (allFilled && key == 13) {
+                                let newRow = table.insertRow(-1);
+                                let w = newRow.insertCell(0);
+                                let x = newRow.insertCell(1);
+                                let y = newRow.insertCell(2);
+                                let z = newRow.insertCell(3);
+                                let btn = newRow.insertCell(4);
+                                w.innerHTML = `<input type="text"
+                                    class="form-control"
+                                    placeholder="Fill in your name">`;
+                                x.innerHTML = `<input type="text"
+                                class="form-control"
+                                placeholder="Fill in your pizza choice">`;
+                                y.innerHTML = `<input type="text"
+                                class="form-control"
+                                placeholder="Fill in your chosen size">`;
+                                z.innerHTML = `<input type="text"
+                                class="form-control"
+                                placeholder="Fill in your remarks">`;
+                                btn.innerHTML = ` <button>Delete</button>`;
+
+
+                                inputChange([w, x, y, z].map(x => x.firstChild));
+                            } else if (key == 13) {
+                                toastr["error"]("Fill out the first 3 fields", "SHIT")
+                            }
+                        }
+                    }
+                }
+
+                inputChange(document.querySelectorAll('#emptyRow>td>input'));
             </script>
         </div>
         <!-- END OF Part 2 -->
