@@ -30,7 +30,8 @@
                 <p>In this exercise, you will go over the different blocks, read the instructions and apply the
                     necessary javascript code to get to the result.
                     <br>You are not allowed to write anything outside the script tags provided. So keep your code in
-                    there!</p>
+                    there!
+                </p>
 
                 <h5>How to do these exercies:</h5>
                 <ul>
@@ -50,7 +51,8 @@
                 <p>Below this, you have an input, here's what you need to do:
                     <ul>
                         <li>When you type something in the greetingsBox, The bordered box should fill with what you
-                            typed</li>
+                            typed
+                        </li>
                         <li>When you empty out the input box, show a "sorry nothing to show" message or a funny text
                         </li>
                     </ul>
@@ -140,6 +142,7 @@
             </div>
             <script>
                 let table = document.getElementById('pizzaOrders');
+                let oldRow = document.getElementById('emptyRow');
 
                 function inputChange(inputs) {
                     for (let i = 0; i < inputs.length; i++) {
@@ -175,7 +178,12 @@
                                 class="form-control"
                                 placeholder="Fill in your remarks">`;
                                 btn.innerHTML = ` <button>Delete</button>`;
-
+                                btn.onclick = () => {
+                                    if (btn != null) {
+                                        let tbody = document.getElementsByTagName('tbody');
+                                        tbody[0].removeChild(newRow);
+                                    }
+                                }
 
                                 inputChange([w, x, y, z].map(x => x.firstChild));
                             } else if (key == 13) {
@@ -210,15 +218,53 @@
                 <button id="launchMe"
                     class="btn btn-success play-button"><i class="fa fa-play"></i></button>
                 <p id="listHolder">This is what you need to make delicious spaghetti:
-                    <span>Pasta</span><span>Tomato Sauce</span><span>Cheese</span><span>Choose your final
-                        ingredient</span></p>
+                    <span>Pasta</span>
+                    <span>Tomato Sauce</span>
+                    <span>Cheese</span>
+                    <span>Choose your final
+                        ingredient</span>
+                </p>
 
                 <br>
                 <br>
 
             </div>
             <script>
-            // Write your code here
+                let p = document.getElementById('listHolder');
+                let span = document.getElementById('listHolder').children;
+                //console.log(span[3]);
+                let btnLaunch = document.getElementById('launchMe');
+                btnLaunch.onclick = () => {
+                    //creat ul
+                    let ul = document.createElement('ul');
+                    // put ul in p
+                    p.insertBefore(ul, null);
+                    //creat 4 li 
+
+
+                    //?????  list inside span! doesn't work
+
+                    for (let i = 0; i < 3; i++) {
+                        console.log(span[i].parentElement.lastElementChild);
+                        function spanToList() {
+                            span[i].innerHTML = `<li> ${span[i].textContent}</li>`;
+                        }
+                        let newList = spanToList();
+                    }
+
+                    //creat input
+                    span[3].innerHTML = `<input type="text" id="ingredient"
+                                placeholder="Choose ingredient">`;
+                    let ingredientInput = document.getElementById('ingredient');
+
+                    ingredientInput.onblur = () => {
+                        if (ingredientInput.value != '') {
+                            console.log("");
+                            ingredientInput.parentElement.innerHTML = `<li>${ingredientInput.value}</li>`;
+                        }
+                    }
+                }
+
             </script>
         </div>
         <!-- END OF Part 3 -->
@@ -230,7 +276,8 @@
                 <p>Below this, you have a table with some random data, here's what you need to do:
                     <ul>
                         <li>When you type something in the searchInput, the table rows need to be filtered by the typed
-                            text</li>
+                            text
+                        </li>
                         <li>Add checkboxes to each header (thead -> th ) when unchecked the columns disappear from the
                             table (default = checked)</li>
                         <li class="bonus">Highlight the found text in the table row</li>
@@ -417,11 +464,13 @@
                     var searchString = event.target.value;
                     highlightAndHideInTable(searchString, targetTable);
                 });
+
                 function highlightAndHideInTable(searchString, targetTable) {
                     removeHighlighSpans(targetTable);
                     hideRows(searchString, targetTable);
                     highlightWords(searchString, targetTable);
                 }
+
                 function hideRows(searchString, targetTable) {
                     // We start at 1 to skip the header row
                     // Might be cleaner to check if we are in a thead or accept a flag, maybe we want to search the head as well?
@@ -429,26 +478,31 @@
                         hideRow(searchString, targetTable.rows[k]);
                     }
                 }
+
                 function hideRow(searchString, row) {
                     // If the row does not contain the searchstring we add the hide class
                     row.classList.toggle("hide", !rowContains(searchString, row));
                 }
+
                 function rowContains(searchString, row) {
                     for (var k = 0; k < row.cells.length; k++)
                         if (row.cells[k].innerHTML.indexOf(searchString) !== -1)
                             return true;
                     return false;
                 }
+
                 function highlightWords(searchString, targetTable) {
                     for (var k = 0; k < targetTable.rows.length; k++) {
                         highlightWordsInRow(searchString, targetTable.rows[k]);
                     }
                 }
+
                 function highlightWordsInRow(searchString, row) {
                     for (var k = 0; k < row.cells.length; k++) {
                         highlightWordsInCell(searchString, row.cells[k]);
                     }
                 }
+
                 function highlightWordsInCell(searchString, cell) {
                     cell.innerHTML = cell.innerHTML.split(searchString).join("<span class='highlight'>" + searchString + "</span>");
                 }
@@ -458,12 +512,13 @@
                         unwrap(table.querySelector('.highlight'));
                     }
                 }
+
                 function unwrap(element) {
                     while (element.firstChild) {
                         element.parentNode.insertBefore(element.firstChild, element);
                     }
                     element.parentNode.removeChild(element);
-                }            
+                }
             </script>
         </div>
         <!-- END OF Part 4 -->
@@ -481,7 +536,24 @@
                     class="block"></div>
             </div>
             <script>
-            // Write your code here
+                const box = document.getElementById('moveAnimation');
+                let widthBox = document.querySelectorAll('div.row')[0].offsetWidth;
+                let widthItem = box.offsetWidth;
+                //total distance 
+                let width = widthBox - widthItem;
+                console.log(width / 2 / 30);
+                // every frame need to move this much px
+                //  everyFrameDistance = width / 2 / 30;
+                // oneFramePerSecond = 1000 / 30;
+                let id = setInterval(frame, 33.33);
+                let pos = 0;
+                function frame(pos) {
+                    pos += 15.2;
+                    box.style.left = pos + 'px';
+                }
+                if (pos == width) {
+                    clearInterval(id);
+                }
             </script>
         </div>
         <!-- END OF Part 5 -->
@@ -499,7 +571,7 @@
                     class="block"></div>
             </div>
             <script>
-            // Write your code here
+                // Write your code here
             </script>
         </div>
         <!-- END OF Part 6 -->
@@ -509,7 +581,8 @@
             <div class="col-12 bg-white shadow-sm p-4 mx-auto mt-4">
                 <h3>Part 7: Sliiiiiders</h3>
                 <p>Recreate this very intuitive user interface. Insert the DOM nodes (html elements) using
-                    document.createElement();</p>
+                    document.createElement();
+                </p>
                 <img src="../input.gif"
                     alt="Interface" />
                 <hr />
@@ -518,7 +591,7 @@
                 <div id="target"></div>
             </div>
             <script>
-            // Write your code here
+                // Write your code here
             </script>
         </div>
         <!-- END OF Part 7 -->
@@ -535,7 +608,7 @@
                 <div id="target2"></div>
             </div>
             <script>
-            // You can put at most one line here
+                // You can put at most one line here
             </script>
         </div>
         <!-- END OF Part 8 -->
