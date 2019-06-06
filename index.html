@@ -545,15 +545,17 @@
                 // every frame need to move this much px
                 //  everyFrameDistance = width / 2 / 30;
                 // oneFramePerSecond = 1000 / 30;
-                let id = setInterval(frame, 33.33);
-                let pos = 0;
-                function frame(pos) {
-                    pos += 15.2;
-                    box.style.left = pos + 'px';
+                var pos = 0;
+                var id = setInterval(frame, 8);
+                function frame() {
+                    if (pos == 100) {
+                        clearInterval(id);
+                    } else {
+                        pos++;
+                        box.style.left = pos + '%';
+                    }
                 }
-                if (pos == width) {
-                    clearInterval(id);
-                }
+
             </script>
         </div>
         <!-- END OF Part 5 -->
