@@ -565,7 +565,6 @@
                     function frameBack() {
                         if (pos == 0) {
                             clearInterval(toLeft);
-                            console.log('nihao');
                             var toRight = setInterval(frame, 4);
                         } else {
                             pos--;
@@ -613,10 +612,61 @@
                 <hr />
                 <br />
 
-                <div id="target"></div>
+                <div id="target">
+                </div>
             </div>
             <script>
-                // Write your code here
+                let div = document.getElementById('target');
+                //h3 creat
+                const h3 = document.createElement('h3');
+                h3.innerText = 'Enter your first name:'
+                //h3 add
+                div.appendChild(h3);
+                //input to type creat
+                const inputName = document.createElement('input');
+                //input add
+                div.appendChild(inputName);
+
+
+                //input mousedown event
+                inputName.onmousedown = () => {
+                    //creat slidecontainer
+                    const slideContainer = document.createElement('div');
+                    //add to div
+                    div.appendChild(slideContainer);
+                    //creat span and input and put in the container
+                    slideContainer.innerHTML = '<span class="mr-3" id="letterHolder"></span><input type="range" min="0" max="25" value="0" class="slider" id="myRange">'
+                    //creat button
+                    const slideBtn = document.createElement('button');
+                    slideBtn.innerText = 'Add Letter';
+                    slideBtn.style.display = 'block';
+                    slideBtn.classList.add("mt-3");
+                    //add button to container
+                    slideContainer.appendChild(slideBtn);
+                    // range letter code
+                    const spanSlide = document.getElementById('letterHolder');
+                    const slideInput = document.getElementById('myRange');
+                    let alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    slideContainer.appendChild(slideBtn);
+                    spanSlide.innerText = alph[slideInput.value];
+                    slideInput.onchange = () => {
+                        console.log(slideInput.value);
+                        spanSlide.innerText = alph[slideInput.value];
+                        inputName.value = spanSlide.textContent;
+                    }
+
+                }
+
+
+                slideBtn.onclick = () => {
+
+                }
+
+
+
+
+
+
             </script>
         </div>
         <!-- END OF Part 7 -->
