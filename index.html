@@ -591,7 +591,12 @@
                     class="block"></div>
             </div>
             <script>
-                // Write your code here
+                let itemBox = document.getElementById("followMouse");
+                itemBox.parentElement.addEventListener('mousemove', runEvent);
+                function runEvent(e) {
+                    console.log(e.offsetX);
+                    itemBox.style.left = e.offsetX - itemBox.offsetWidth + 'px';
+                }
             </script>
         </div>
         <!-- END OF Part 6 -->
