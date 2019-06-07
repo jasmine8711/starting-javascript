@@ -551,26 +551,29 @@
                 //  everyFrameDistance = width / 2 / 30;
                 // oneFramePerSecond = 1000 / 30;
                 // from left to right
+                // ????????????? after first round , the box shaking
                 var pos = 0;
-                var id = setInterval(frame, 8);
+                var toRight = setInterval(frame, 4);
                 function frame() {
-                    if (pos == 100) {
-                        clearInterval(id);
+                    if (pos == width) {
+                        clearInterval(toRight);
+                        var toLeft = setInterval(frameBack, 8);
                     } else {
                         pos++;
-                        box.style.left = pos + '%';
+                        box.style.left = (pos + 15.2) + 'px';
+                    }
+                    function frameBack() {
+                        if (pos == 0) {
+                            clearInterval(toLeft);
+                            console.log('nihao');
+                            var toRight = setInterval(frame, 4);
+                        } else {
+                            pos--;
+                            box.style.left = (pos - 8) + 'px';
+                        }
                     }
                 }
-                //from right to left 
-                var idBack = setInterval(frameBack, 20);
-                function frameBack() {
-                    if (pos == 0) {
-                        clearinterval(idback);
-                    } else if (pos == 100) {
-                        pos++;
-                        box.style.left = pos - "%";
-                    }
-                }
+
             </script>
         </div>
         <!-- END OF Part 5 -->
