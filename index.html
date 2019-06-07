@@ -554,22 +554,23 @@
                 // ????????????? after first round , the box shaking
                 var pos = 0;
                 var toRight = setInterval(frame, 4);
+                var toLeft;
                 function frame() {
                     if (pos == width) {
                         clearInterval(toRight);
-                        var toLeft = setInterval(frameBack, 8);
+                        toLeft = setInterval(frameBack, 8);
                     } else {
                         pos++;
                         box.style.left = (pos + 15.2) + 'px';
                     }
-                    function frameBack() {
-                        if (pos == 0) {
-                            clearInterval(toLeft);
-                            var toRight = setInterval(frame, 4);
-                        } else {
-                            pos--;
-                            box.style.left = (pos - 8) + 'px';
-                        }
+                }
+                function frameBack() {
+                    if (pos == 0) {
+                        clearInterval(toLeft);
+                        toRight = setInterval(frame, 4);
+                    } else {
+                        pos--;
+                        box.style.left = (pos - 8) + 'px';
                     }
                 }
 
@@ -635,7 +636,7 @@
                     //add to div
                     div.appendChild(slideContainer);
                     //creat span and input and put in the container
-                    slideContainer.innerHTML = '<span class="mr-3" id="letterHolder"></span><input type="range" min="0" max="25" value="0" class="slider" id="myRange">'
+                    slideContainer.innerHTML = '<span class="mr-3 letterHolder"></span><input type="range" min="0" max="25" value="0" class="slider">'
                     //creat button
                     const slideBtn = document.createElement('button');
                     slideBtn.innerText = 'Add Letter';
@@ -644,28 +645,27 @@
                     //add button to container
                     slideContainer.appendChild(slideBtn);
                     // range letter code
-                    const spanSlide = document.getElementById('letterHolder');
-                    const slideInput = document.getElementById('myRange');
-                    let alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                    slideContainer.appendChild(slideBtn);
-                    spanSlide.innerText = alph[slideInput.value];
-                    slideInput.onchange = () => {
-                        console.log(slideInput.value);
-                        spanSlide.innerText = alph[slideInput.value];
-                        inputName.value = spanSlide.textContent;
+                    function creatRange() {
+                        const spanSlide = document.getElementsByClassName('letterHolder');
+                        //id doesnt work
+                        const slideInput = document.getElementsByClassName('slider');
+
+                        let alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                        slideContainer.appendChild(slideBtn);
+                        spanSlide[0].innerText = alph[slideInput[0].value];
+
+                        slideInput[0].onchange = () => {
+                            console.log(slideInput[0].value);
+                            spanSlide[0].innerText = alph[slideInput[0].value];
+                            inputName.value = spanSlide[0].textContent;
+                        }
                     }
-
+                    creatRange();
+                    slideBtn.onclick = () => {
+                        console.log('nihao');
+                        creatRange;
+                    }
                 }
-
-
-                slideBtn.onclick = () => {
-
-                }
-
-
-
-
-
 
             </script>
         </div>
