@@ -238,29 +238,34 @@
                     //creat ul
                     let ul = document.createElement('ul');
                     // put ul in p
-                    p.insertBefore(ul, null);
+                    p.appendChild(ul);
                     //creat 4 li 
-
 
                     //?????  list inside span! doesn't work
 
                     for (let i = 0; i < 3; i++) {
-                        console.log(span[i].parentElement.lastElementChild);
-                        function spanToList() {
-                            span[i].innerHTML = `<li> ${span[i].textContent}</li>`;
-                        }
-                        let newList = spanToList();
+                        let li = document.createElement('li');
+                        li.innerHTML = span[i].innerText;
+                        ul.appendChild(li);
+
+                        /*                         console.log(span[i].parentElement.lastElementChild);
+                                                function spanToList() {
+                                                    span[i].innerHTML = `<li> ${span[i].textContent}</li>`;
+                                                }
+                                                let newList = spanToList(); */
                     }
 
                     //creat input
-                    span[3].innerHTML = `<input type="text" id="ingredient"
+                    let li = document.createElement('li');
+                    li.innerHTML = `<input type="text" id="ingredient"
                                 placeholder="Choose ingredient">`;
+                    ul.appendChild(li);
                     let ingredientInput = document.getElementById('ingredient');
 
                     ingredientInput.onblur = () => {
                         if (ingredientInput.value != '') {
                             console.log("");
-                            ingredientInput.parentElement.innerHTML = `<li>${ingredientInput.value}</li>`;
+                            ingredientInput.parentElement.innerHTML = ingredientInput.value;
                         }
                     }
                 }
@@ -545,6 +550,7 @@
                 // every frame need to move this much px
                 //  everyFrameDistance = width / 2 / 30;
                 // oneFramePerSecond = 1000 / 30;
+                // from left to right
                 var pos = 0;
                 var id = setInterval(frame, 8);
                 function frame() {
@@ -555,7 +561,16 @@
                         box.style.left = pos + '%';
                     }
                 }
-
+                //from right to left 
+                var idBack = setInterval(frameBack, 20);
+                function frameBack() {
+                    if (pos == 0) {
+                        clearinterval(idback);
+                    } else if (pos == 100) {
+                        pos++;
+                        box.style.left = pos - "%";
+                    }
+                }
             </script>
         </div>
         <!-- END OF Part 5 -->
