@@ -619,64 +619,91 @@
                 </div>
             </div>
             <script>
+                slider("target");
+                function slider(divName) {
+                    let div = document.getElementById(divName);
+                    //h3 creat
+                    const h3 = document.createElement('h3');
+                    h3.innerText = 'Enter your first name:'
+                    //h3 add
+                    div.appendChild(h3);
+                    //input to type creat
+                    const inputName = document.createElement('input');
+                    //input add
+                    div.appendChild(inputName);
+                    //function creat slide
+                    //creat div contain slide
+                    const slideBigBox = document.createElement('div');
+                    div.appendChild(slideBigBox);
 
-                let div = document.getElementById('target');
-                //h3 creat
-                const h3 = document.createElement('h3');
-                h3.innerText = 'Enter your first name:'
-                //h3 add
-                div.appendChild(h3);
-                //input to type creat
-                const inputName = document.createElement('input');
-                //input add
-                div.appendChild(inputName);
-                //function creat slide
-                //creat div contain slide
-                const slideBigBox = document.createElement('div');
-                div.appendChild(slideBigBox);
+                    //create slider and add them in div
 
-                function createSlide() {
-                    const slideBox = document.createElement('div');
-                    slideBox.innerHTML = '<span class="mr-3 letterHolder"></span><input type="range" min="0" max="25" value="0" class="slider">';
-                    slideBigBox.appendChild(slideBox);
-                    const spanSlide = document.getElementsByClassName('letterHolder');
-                    const slideInput = document.getElementsByClassName('slider');
-                    const alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                    console.log(slideInput.length);
-                    for (let i = 0; i < slideInput.length; i++) {
-                        console.log(spanSlide[i]);
-                        spanSlide[i].innerText = "A";
-                        // ??????everychange add one! not good!
-                        slideInput[i].onchange = () => {
-                            spanSlide[i].innerText = alph[slideInput[i].value];
-                            inputName.value += spanSlide[i].textContent;
+                    function createSlide() {
+                        const slideBox = document.createElement('div');
+                        const slideSpan = document.createElement("span");
+                        slideSpan.classList.add("mr-3");
+                        slideSpan.classList.add("letterHolder");
+                        const slider = document.createElement("input");
+                        slider.type = "range";
+                        slider.min = 0;
+                        slider.max = 25;
+                        slider.value = 0;
+                        slider.classList.add('slider');
+
+                        slideBox.appendChild(slideSpan);
+                        slideBox.appendChild(slider);
+
+                        slideBigBox.appendChild(slideBox);
+
+                        slideSpan.innerText = "A";
+
+                        slider.addEventListener("change", moveSlider);
+                        inputName.value += "A";
+                    }
+                    //
+                    function moveSlider() {
+                        const allSliders = document.getElementsByClassName("slider");
+                        const allSpans = document.getElementsByClassName("letterHolder");
+                        //find which slider i am
+                        let idx = 0
+                        for (let i = 0; i < allSliders.length; i++) {
+                            if (allSliders[i] == this) {
+                                idx = i;
+                                break;
+                            }
+                        }
+
+                        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                        let str = inputName.value.split('');
+                        str[idx] = alphabet[this.value];
+                        allSpans[idx].innerText = str[idx];
+                        inputName.value = str.join('');
+                    }
+
+                    const slideBtn = document.createElement('button');
+                    //creat btn function
+                    function createBtn() {
+                        slideBtn.innerText = 'Add Letter';
+                        slideBtn.style.display = 'block';
+                        slideBtn.classList.add("mt-3");
+                        slideBtn.classList.add("slideBtn");
+                        arrayOfBtn = document.getElementsByClassName('slideBtn');
+                        numberOfBtn = arrayOfBtn.length;
+                        if (numberOfBtn == 0) {
+                            div.appendChild(slideBtn);
+                        }
+                    }
+                    //console.log(slideBigBox.childNodes.length);
+                    slideBtn.addEventListener('click', createSlide);
+
+                    inputName.onmousedown = () => {
+                        if (slideBigBox.childNodes.length == 0) {
+                            createSlide();
+                            createBtn();
                         }
                     }
                 }
 
-                const slideBtn = document.createElement('button');
-                //creat btn function
-                function createBtn() {
-                    slideBtn.innerText = 'Add Letter';
-                    slideBtn.style.display = 'block';
-                    slideBtn.classList.add("mt-3");
-                    slideBtn.classList.add("slideBtn");
-                    arrayOfBtn = document.getElementsByClassName('slideBtn');
-                    numberOfBtn = arrayOfBtn.length;
-                    if (numberOfBtn == 0) {
-                        div.appendChild(slideBtn);
-                    }
-                }
-                //console.log(slideBigBox.childNodes.length);
-                slideBtn.addEventListener('click', createSlide);
-
-                inputName.onmousedown = () => {
-                    if (slideBigBox.childNodes.length == 0) {
-                        createSlide();
-                        createBtn();
-                    }
-                }
-// 点击多次slide，产生多个字母
             </script>
         </div>
         <!-- END OF Part 7 -->
@@ -693,62 +720,7 @@
                 <div id="target2"></div>
             </div>
             <script>
-                let div = document.getElementById('target2');
-                //h3 creat
-                const h3 = document.createElement('h3');
-                h3.innerText = 'Enter your first name:'
-                //h3 add
-                div.appendChild(h3);
-                //input to type creat
-                const inputName = document.createElement('input');
-                //input add
-                div.appendChild(inputName);
-                //function creat slide
-                //creat div contain slide
-                const slideBigBox = document.createElement('div');
-                div.appendChild(slideBigBox);
-
-                function createSlide() {
-                    const slideBox = document.createElement('div');
-                    slideBox.innerHTML = '<span class="mr-3 letterHolder"></span><input type="range" min="0" max="25" value="0" class="slider">';
-                    slideBigBox.appendChild(slideBox);
-                    const spanSlide = document.getElementsByClassName('letterHolder');
-                    const slideInput = document.getElementsByClassName('slider');
-                    const alph = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                    console.log(slideInput.length);
-                    for (let i = 0; i < slideInput.length; i++) {
-                        console.log(spanSlide[i]);
-                        spanSlide[i].innerText = "A";
-                        // ??????everychange add one! not good!
-                        slideInput[i].onchange = () => {
-                            spanSlide[i].innerText = alph[slideInput[i].value];
-                            inputName.value += spanSlide[i].textContent;
-                        }
-                    }
-                }
-
-                const slideBtn = document.createElement('button');
-                //creat btn function
-                function createBtn() {
-                    slideBtn.innerText = 'Add Letter';
-                    slideBtn.style.display = 'block';
-                    slideBtn.classList.add("mt-3");
-                    slideBtn.classList.add("slideBtn");
-                    arrayOfBtn = document.getElementsByClassName('slideBtn');
-                    numberOfBtn = arrayOfBtn.length;
-                    if (numberOfBtn == 0) {
-                        div.appendChild(slideBtn);
-                    }
-                }
-                //console.log(slideBigBox.childNodes.length);
-                slideBtn.addEventListener('click', createSlide);
-
-                inputName.onmousedown = () => {
-                    if (slideBigBox.childNodes.length == 0) {
-                        createSlide();
-                        createBtn();
-                    }
-                } 
+                slider("target2");
             </script>
         </div>
         <!-- END OF Part 8 -->
