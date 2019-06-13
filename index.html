@@ -464,67 +464,108 @@
                 </table>
             </div>
             <script>
-                var targetTable = document.getElementById('searchTable');
+                const targetTable = document.getElementById('searchTable');
+                const myTh = document.getElementsByClassName('th-sm');
 
-                document.getElementById('searchInput').addEventListener('keyup', function (event) {
-                    var searchString = event.target.value;
-                    highlightAndHideInTable(searchString, targetTable);
-                });
-
-                function highlightAndHideInTable(searchString, targetTable) {
-                    removeHighlighSpans(targetTable);
-                    hideRows(searchString, targetTable);
-                    highlightWords(searchString, targetTable);
+                //creat checkbox
+                function createCheckBox() {
+                    const myCheckBox = document.createElement('input');
+                    myCheckBox.type = "checkbox";
+                    myCheckBox.checked = true;
+                    myCheckBox.classList.add("ml-1");
+                    myCheckBox.classList.add("mycheckbox");
+                    myCheckBox.addEventListener("click", checkBoxClick);
+                    return myCheckBox;
+                }
+                //console.log(createCheckBox());
+                for (let i = 0; i < myTh.length; i++) {
+                    const newCheckbox = createCheckBox();
+                    myTh[i].appendChild(newCheckbox);
                 }
 
-                function hideRows(searchString, targetTable) {
-                    // We start at 1 to skip the header row
-                    // Might be cleaner to check if we are in a thead or accept a flag, maybe we want to search the head as well?
-                    for (var k = 1; k < targetTable.rows.length; k++) {
-                        hideRow(searchString, targetTable.rows[k]);
+
+                function checkBoxClick() {
+                    const checkBoxes = document.getElementsByClassName('mycheckbox');
+                    const allTr = document.querySelectorAll('#searchTable>tbody>tr')
+                    //console.log(allTr);
+                    let index = 0;
+                    for (let j = 0; j < checkBoxes.length; j++) {
+                        if (checkBoxes[j] == this) {
+                            index = j;
+                            break;
+                        }
                     }
-                }
 
-                function hideRow(searchString, row) {
-                    // If the row does not contain the searchstring we add the hide class
-                    row.classList.toggle("hide", !rowContains(searchString, row));
-                }
-
-                function rowContains(searchString, row) {
-                    for (var k = 0; k < row.cells.length; k++)
-                        if (row.cells[k].innerHTML.indexOf(searchString) !== -1)
-                            return true;
-                    return false;
-                }
-
-                function highlightWords(searchString, targetTable) {
-                    for (var k = 0; k < targetTable.rows.length; k++) {
-                        highlightWordsInRow(searchString, targetTable.rows[k]);
+                    //console.log(allTr[index].children[index]);
+                    for (let k = 0; k < allTr.length; k++) {
+                        allTr[k].deleteCell(index);
                     }
+                    myTh[0].parentElement.deleteCell(index);
+
+                    //console.log(this);
+
                 }
 
-                function highlightWordsInRow(searchString, row) {
-                    for (var k = 0; k < row.cells.length; k++) {
-                        highlightWordsInCell(searchString, row.cells[k]);
-                    }
-                }
+                /*                 //not my code !
+                                document.getElementById('searchInput').addEventListener('keyup', function (event) {
+                                    var searchString = event.target.value;
+                                    highlightAndHideInTable(searchString, targetTable);
+                                });
 
-                function highlightWordsInCell(searchString, cell) {
-                    cell.innerHTML = cell.innerHTML.split(searchString).join("<span class='highlight'>" + searchString + "</span>");
-                }
-                // Can be sped up a bit by caching the queryselector
-                function removeHighlighSpans(table) {
-                    while (table.querySelector('.highlight')) {
-                        unwrap(table.querySelector('.highlight'));
-                    }
-                }
+                                function highlightAndHideInTable(searchString, targetTable) {
+                                    removeHighlighSpans(targetTable);
+                                    hideRows(searchString, targetTable);
+                                    highlightWords(searchString, targetTable);
+                                }
 
-                function unwrap(element) {
-                    while (element.firstChild) {
-                        element.parentNode.insertBefore(element.firstChild, element);
-                    }
-                    element.parentNode.removeChild(element);
-                }
+                                function hideRows(searchString, targetTable) {
+                                    // We start at 1 to skip the header row
+                                    // Might be cleaner to check if we are in a thead or accept a flag, maybe we want to search the head as well?
+                                    for (var k = 1; k < targetTable.rows.length; k++) {
+                                        hideRow(searchString, targetTable.rows[k]);
+                                    }
+                                }
+
+                                function hideRow(searchString, row) {
+                                    // If the row does not contain the searchstring we add the hide class
+                                    row.classList.toggle("hide", !rowContains(searchString, row));
+                                }
+
+                                function rowContains(searchString, row) {
+                                    for (var k = 0; k < row.cells.length; k++)
+                                        if (row.cells[k].innerHTML.indexOf(searchString) !== -1)
+                                            return true;
+                                    return false;
+                                }
+
+                                function highlightWords(searchString, targetTable) {
+                                    for (var k = 0; k < targetTable.rows.length; k++) {
+                                        highlightWordsInRow(searchString, targetTable.rows[k]);
+                                    }
+                                }
+
+                                function highlightWordsInRow(searchString, row) {
+                                    for (var k = 0; k < row.cells.length; k++) {
+                                        highlightWordsInCell(searchString, row.cells[k]);
+                                    }
+                                }
+
+                                function highlightWordsInCell(searchString, cell) {
+                                    cell.innerHTML = cell.innerHTML.split(searchString).join("<span class='highlight'>" + searchString + "</span>");
+                                }
+                                // Can be sped up a bit by caching the queryselector
+                                function removeHighlighSpans(table) {
+                                    while (table.querySelector('.highlight')) {
+                                        unwrap(table.querySelector('.highlight'));
+                                    }
+                                }
+
+                                function unwrap(element) {
+                                    while (element.firstChild) {
+                                        element.parentNode.insertBefore(element.firstChild, element);
+                                    }
+                                    element.parentNode.removeChild(element);
+                                } */
             </script>
         </div>
         <!-- END OF Part 4 -->
@@ -547,12 +588,10 @@
                 const widthItem = box.offsetWidth;
                 //total distance 
                 let width = widthBox - widthItem;
-                console.log(width / 2 / 30);
                 // every frame need to move this much px
                 //  everyFrameDistance = width / 2 / 30;
                 // oneFramePerSecond = 1000 / 30;
                 // from left to right
-                // ????????????? after first round , the box shaking
                 var pos = 0;
                 var toRight = setInterval(frame, 4);
                 var toLeft;
@@ -660,7 +699,7 @@
                         slider.addEventListener("change", moveSlider);
                         inputName.value += "A";
                     }
-                    //
+                    //find which one is moved
                     function moveSlider() {
                         const allSliders = document.getElementsByClassName("slider");
                         const allSpans = document.getElementsByClassName("letterHolder");
